@@ -11,7 +11,7 @@ import (
 
 func main() {
 	exePath := "../my_seg"
-	corePath := "/home/kw/mystuff/coredump-uploader/core.587633.my_seg.1758865156.kw"
+	corePath := "/home/kw/mystuff/coredump-uploader/core.619943.my_seg.1758873173.kw"
 	// debugInfoDirs := []string{}
 
 	fmt.Println("======HERE==========")
@@ -50,6 +50,11 @@ func callGdb(gdbPath, corePath, exePath string) error {
 	fmt.Println("corePath: ", corePath)
 	fmt.Println("exePath: ", exePath)
 
+	gdb_commands := `
+# Each command has to be on a new line.
+
+thread apply all bt
+quit`
 	{
 		// gdb --quiet --silent --batch -x commands.gdb my_seg core.587633.my_seg.1758865156.kw
 		f, err := os.CreateTemp("", "gdb_commands")
@@ -58,7 +63,7 @@ func callGdb(gdbPath, corePath, exePath string) error {
 		}
 		defer f.Close()
 		defer os.Remove(f.Name())
-		if _, err := f.Write([]byte("thread apply all bt\nquit")); err != nil {
+		if _, err := f.Write([]byte(gdb_commands)); err != nil {
 			return fmt.Errorf("unable to write to gdb_commands file: %w", err)
 		}
 		fmt.Println("gdb_commands file: ", f.Name())
@@ -69,6 +74,9 @@ func callGdb(gdbPath, corePath, exePath string) error {
 		var stdOut bytes.Buffer
 		cmd.Stderr = &stdErr
 		cmd.Stdout = &stdOut
+		newEnv := os.Environ()
+		newEnv = append(newEnv, `DEBUGINFOD_URLS=`)
+		cmd.Env = newEnv
 		if err := cmd.Run(); err != nil {
 			return fmt.Errorf("unable to run gdb(%v): %w", cmd.Args, err)
 		}
@@ -76,7 +84,11 @@ func callGdb(gdbPath, corePath, exePath string) error {
 			return fmt.Errorf("gdb run failed(%v): `%s`", cmd.Args, stdErr.String())
 		}
 
-		fmt.Println("stdOut:", stdOut.String())
+		fmt.Println("stdOut:")
+		fmt.Println()
+		fmt.Println(stdOut.String())
+
+		// fmt.Println("env: ", cmd.Environ())
 	}
 
 	return nil

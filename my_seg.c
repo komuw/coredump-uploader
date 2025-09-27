@@ -48,7 +48,7 @@ After=systemd-coredump@.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/sentry-uploader %i %I %a % A %b %B %f %g %G %H %m %M %n %N %o %p %s %u %U %v
+ExecStart=/home/kw/mystuff/coredump-uploader/.venv/bin/python /home/kw/mystuff/coredump-uploader/handler.py %i %I %a % A %b %B %f %g %G %H %m %M %n %N %o %p %s %u %U %v
 ' > /etc/systemd/system/my-coredump-handler.service
 
 sudo systemctl daemon-reload

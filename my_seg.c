@@ -14,6 +14,9 @@ int main()
 }
 
 /*
+sudo sysctl -w kernel.core_pattern='core.%e.%p' # temporarily make cwd the dir for coredumps
+sudo sysctl -w kernel.core_pattern='core.%e.%E.%h.%i.%p.%s.%t' # temporarily make cwd the dir for coredumps
+
 gcc -g my_seg.c -o my_seg
 ulimit -c unlimited && ./my_seg
 gdb my_seg core.583354.my_seg.1758864537.kw
@@ -71,4 +74,9 @@ if __name__ == "__main__":
 python3 /root/handler.py ok
 
 https://docs.sentry.io/platforms/go/enriching-events/
+
+GDB/MI (machine interface) is a line-based protocol designed specifically for controlling GDB from another program, such as an IDE or a custom tool.
+gdb --interpreter=mi3 --quiet --batch -x mi_commands.gdb more_threads "core.more_threads.!home!kw!mystuff!coredump-uploader!more_threads.kw.717226.717224.11.1759081930"
+
+https://g.co/gemini/share/8f67815eb46a
 */

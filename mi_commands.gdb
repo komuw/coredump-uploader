@@ -1,0 +1,5 @@
+-exec-interrupt
+-gdb-version
+-stack-list-frames
+-thread-info
+-gdb-exit

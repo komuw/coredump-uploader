@@ -1,0 +1,13 @@
+# comment 
+
+# Force GDB to stop and synchronize its state before proceeding.
+interpreter-exec mi -exec-interrupt
+interpreter-exec mi -gdb-version
+interpreter-exec mi -info-os
+interpreter-exec mi -stack-list-frames
+interpreter-exec mi -thread-info
+interpreter-exec mi -gdb-exit
+
+# run as:
+# gdb --interpreter=mi --batch -x mi_commands.txt more_threads simple.core
+#

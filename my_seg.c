@@ -69,4 +69,6 @@ def main():
 if __name__ == "__main__":
     main()
 python3 /root/handler.py ok
+
+https://docs.sentry.io/platforms/go/enriching-events/
 */

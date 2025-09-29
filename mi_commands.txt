@@ -11,3 +11,5 @@ interpreter-exec mi -gdb-exit
 # run as:
 # gdb --interpreter=mi --batch -x mi_commands.txt more_threads simple.core
 #
+#
+# TODO: check out; https://pkg.go.dev/github.com/sirnewton01/gdblib
